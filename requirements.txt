@@ -1,0 +1,9 @@
+pymupdf
+pymupdf4llm
+transformers 
+torch 
+pillow
+chromadb 
+langchain 
+sentence-transformers
+cohere
