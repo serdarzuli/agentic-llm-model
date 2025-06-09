@@ -78,3 +78,14 @@ streamlit run frontend/streamlit_app.py
 - Voice input & output
 
 ---
+
+## UI:
+GPT model:
+![Screenshot 2025-06-09 162936](https://github.com/user-attachments/assets/cfb80401-b785-4664-a1fc-752b5c8ce72d)
+
+Multi Lang options:
+![Screenshot 2025-06-09 162952](https://github.com/user-attachments/assets/9e3b2126-d4a0-4380-b023-ff9b18034251)
+
+DeepSeek Model:
+![Screenshot 2025-06-09 163011](https://github.com/user-attachments/assets/d54731f4-ac1a-4365-8900-02a9a3ef585f)
+
