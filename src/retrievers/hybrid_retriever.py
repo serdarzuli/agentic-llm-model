@@ -8,7 +8,7 @@ import cohere
 load_dotenv()
 cohere_api_key = os.getenv("COHERE_API_KEY")
 
-embedding_model = OpenAIEmbeddings(model_name="text-embedding-3-small")  # OpenAI Embeddings model
+embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")  # OpenAI Embeddings model
 
 co = cohere.Client(cohere_api_key)  # Coh
 
