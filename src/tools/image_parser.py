@@ -9,12 +9,10 @@ import torch
 processor = Pix2StructProcessor.from_pretrained("google/pix2struct-base")
 model = Pix2StructForConditionalGeneration.from_pretrained("google/pix2struct-base")
 
-def parse_image_structure(image_path):
+def parse_image_structure(image, image_name="uploaded_image"):
     """
-    Tek bir görseldeki yapılandırılmış içeriği (form, tablo, diyagram) çözümler.
+    image_name: Dosya adı veya benzersiz bir isim
     """
-    image = Image.open(image_path).convert("RGB")  # Görseli RGB olarak aç
-
     inputs = processor(images=image, return_tensors="pt")  # Tensöre dönüştür
     with torch.no_grad():  # Inference modunda çalış
         outputs = model.generate(**inputs, max_length=512)  # Cevabı üret
@@ -23,8 +21,8 @@ def parse_image_structure(image_path):
 
     return {
         "text": result.strip(),            # Çıkarılan içerik
-        "source_id": image_path.name,      # Dosya adı
-        "title": image_path.stem,          # Uzantısız dosya adı
+        "source_id": image_name,      # Dosya adı
+        "title": Path(image_name).stem,          # Uzantısız dosya adı
         "type": "image_structured_data"    # İçerik türü
     }
 
