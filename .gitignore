@@ -4,3 +4,6 @@ src/agents/__pycache__/query_router.cpython-311.pyc
 src/models/__pycache__/model_selector.cpython-311.pyc
 src/retrievers/__pycache__/hybrid_retriever.cpython-311.pyc
 data/embeddings/chroma.sqlite3
+src/tools/__pycache__/image_parser.cpython-311.pyc
+src/tools/__pycache__/metadata_enricher.cpython-311.pyc
+src/tools/__pycache__/pdf_loader.cpython-311.pyc

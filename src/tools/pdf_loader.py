@@ -1,4 +1,4 @@
-from pymupdf4llm import PyMuPDFLoader
+from langchain_community.document_loaders import PyMuPDFLoader
 from pathlib import Path
 
 

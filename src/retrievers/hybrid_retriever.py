@@ -1,5 +1,5 @@
-from langchain.vectorstores import Chroma
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import OpenAIEmbeddings
 from langchain.schema import Document
 import os
 from dotenv import load_dotenv

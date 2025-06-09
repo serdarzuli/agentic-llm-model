@@ -4,7 +4,7 @@ transformers
 torch 
 pillow
 chromadb 
-langchain 
+langchain-openai
 sentence-transformers
 cohere
 openai
