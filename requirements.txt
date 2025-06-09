@@ -11,3 +11,4 @@ openai
 streamlit
 streamlit-extras
 langchain-community
+tiktoken
