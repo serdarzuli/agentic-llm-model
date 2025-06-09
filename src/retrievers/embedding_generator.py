@@ -3,7 +3,7 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.schema import Document
 from pathlib import Path
 
-embeddings = OpenAIEmbeddings(model_name="text-embedding-3-small")  
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")  
 
 def prepare_documents(chunks):
     docs = []
