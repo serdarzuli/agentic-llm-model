@@ -1,10 +1,16 @@
 from langchain_community.document_loaders import PyMuPDFLoader
 from pathlib import Path
+import fitz  # PyMuPDF
 
 
-def load_pdf_with_metada(pdf_path):
-    loader = PyMuPDFLoader(pdf_path)
-    return loader.load()
+def load_pdf_with_metada(uploaded_file):
+    # uploaded_file: Streamlit UploadedFile nesnesi
+    doc = fitz.open(stream=uploaded_file.read(), filetype="pdf")
+    text = ""
+    for page in doc:
+        text += page.get_text()
+    return text
+
 
 def load_all_pdfs_from_folder(folder_path):
     all_docs = []
