@@ -1,5 +1,3 @@
-# tools/metadata_enricher.py
-
 from datetime import datetime
 from pathlib import Path
 
