@@ -4,7 +4,6 @@ import fitz  # PyMuPDF
 
 
 def load_pdf_with_metada(uploaded_file):
-    # uploaded_file: Streamlit UploadedFile nesnesi
     doc = fitz.open(stream=uploaded_file.read(), filetype="pdf")
     text = ""
     for page in doc:

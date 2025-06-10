@@ -5,7 +5,7 @@ from pathlib import Path
 
 def enrich_metadata(item, extra_meta=None):
     """
-    Tek bir içerik parçasına standart metadata alanlarını ekler.
+    Enriches a single piece of content with standard metadata fields.
 
     item: {
         'text': '...',
@@ -13,18 +13,18 @@ def enrich_metadata(item, extra_meta=None):
         'type': 'pdf',
         ...
     }
-    extra_meta: {'date': ..., 'page': ..., 'speaker': ...} gibi opsiyonel değerler
+    extra_meta: Optional additional metadata like {'date': ..., 'page': ..., 'speaker': ...}
     """
     enriched = {
-        "text": item.get("text", "").strip(),                       # Ana içerik (metin)
-        "source_id": item.get("source_id", "unknown"),              # Dosya adı veya ID
-        "title": item.get("title", item.get("source_id", "")).replace("_", " ").split(".")[0],  # Başlık
-        "type": item.get("type", "unknown"),                        # Kaynak türü (pdf, audio, image, vs.)
-        "date": item.get("date", "").strip(),                       # Tarih (varsa)
-        "page": item.get("page", 1),                                # Sayfa numarası (varsa)
+        "text": item.get("text", "").strip(),                       # Main content (text)
+        "source_id": item.get("source_id", "unknown"),              # File name or ID
+        "title": item.get("title", item.get("source_id", "")).replace("_", " ").split(".")[0],  # Title
+        "type": item.get("type", "unknown"),                        # Resource type (pdf, audio, image, etc.)
+        "date": item.get("date", "").strip(),                       # Date (if available)
+        "page": item.get("page", 1),                                # Page number (if available)
     }
 
-    # Opsiyonel alanlar ekleniyor (örneğin sayfa, konuşmacı, proje vs.)
+    # Add optional fields (e.g., page, speaker, project, etc.)
     if extra_meta:
         enriched.update(extra_meta)
 
@@ -32,6 +32,6 @@ def enrich_metadata(item, extra_meta=None):
 
 def enrich_batch(items, default_meta=None):
     """
-    Birden fazla chunk için batch metadata zenginleştirme.
+    Batch metadata enrichment for multiple chunks.
     """
     return [enrich_metadata(item, default_meta) for item in items]
