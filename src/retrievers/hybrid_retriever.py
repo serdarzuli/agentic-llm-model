@@ -8,16 +8,16 @@ import cohere
 load_dotenv()
 cohere_api_key = os.getenv("COHERE_API_KEY")
 
-embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")  # OpenAI Embeddings model
+embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
 
-co = cohere.Client(cohere_api_key)  # Coh
+co = cohere.Client(cohere_api_key)
 
 def load_vector_db(persist_dir="./data/embeddings/"):
     """
-    Cohere API anahtarını kullanarak vektör veritabanını yükler.
+    Load the vector database using the Cohere API key.
     """
     if not cohere_api_key:
-        raise ValueError("Cohere API anahtarı sağlanmadı.")
+        raise ValueError("Cohere API key not provided.")
     
     return Chroma(
         persist_directory=persist_dir,
@@ -26,19 +26,19 @@ def load_vector_db(persist_dir="./data/embeddings/"):
 
 def rerank_with_cohere(query, documents, top_n=5):
     """
-    Cohere API kullanarak belgeleri yeniden sıralar.
+    Rerank documents using the Cohere API.
     
-    query: Sorgu metni
-    documents: Belgeler listesi (Document nesneleri)
-    top_n: En iyi N belgeyi döndür
+    query: Query text
+    documents: List of documents (Document objects)
+    top_n: Return top N documents
     """
     if not cohere_api_key:
-        raise ValueError("Cohere API anahtarı sağlanmadı.")
+        raise ValueError("Cohere API key not provided.")
     
-    # Belgelerin metinlerini al
+    # Extract the text from the documents
     texts = [doc.page_content for doc in documents]
     
-    # Cohere ile yeniden sıralama yap
+    # Rerank using Cohere
     response = co.rerank(
         model="rerank-english-v2.0",
         query=query,
@@ -46,21 +46,21 @@ def rerank_with_cohere(query, documents, top_n=5):
         top_n=top_n
     )
     
-    # Sonuçları Document nesnelerine dönüştür
+    # Convert the results back to Document objects
     reranked_docs = []
     for idx in response.reranked_documents:
-        reranked_docs.append(documents[idx.index])  #indexe gore siralama yap
+        reranked_docs.append(documents[idx.index])
 
     return reranked_docs
 
 def keyword_fallback(query, db, k=3):
     """
-    Embedding sonucu boş dönerse, keyword arama fallback'i.
+    Fallback to keyword search if embedding result is empty.
     """
     results = []
     for collection in db._collection.get()["documents"]:
         for i, doc in enumerate(collection):
-            if query.lower() in doc.lower():  # Case-insensitive eşleşme
+            if query.lower() in doc.lower():  # Case-insensitive match
                 results.append(Document(page_content=doc))
                 if len(results) >= k:
                     return results
@@ -69,16 +69,16 @@ def keyword_fallback(query, db, k=3):
 
 def get_relecant_documents(query, k=10, filters=None, rerank=True):
     """
-    Verilen sorguya göre ilgili belgeleri döndürür.
+    Retrieve relevant documents based on the given query.
     
-    query: Sorgu metni
-    k: Döndürülecek belge sayısı
-    filters: Opsiyonel filtreler (örneğin tarih, tür vs.)
-    rerank: Yeniden sıralama yapılıp yapılmayacağı
+    query: Query text
+    k: Number of documents to return
+    filters: Optional filters (e.g., date, type, etc.)
+    rerank: Whether to rerank the documents
     """
     vector_db = load_vector_db()
     
-    # Belgeleri al
+    # Retrieve documents
     retriever = vector_db.as_retriever(search_kwargs={
         "k": k,
         "filters": filters or {}
