@@ -5,30 +5,30 @@ from PIL import Image  # Görsel işlemleri için
 from pathlib import Path
 import torch
 
-# Model ve işlemci yükleniyor
+# Model and processor loading
 processor = Pix2StructProcessor.from_pretrained("google/pix2struct-base")
 model = Pix2StructForConditionalGeneration.from_pretrained("google/pix2struct-base")
 
 def parse_image_structure(image, image_name="uploaded_image"):
     """
-    image_name: Dosya adı veya benzersiz bir isim
+    image_name: File name or a unique name
     """
-    inputs = processor(images=image, return_tensors="pt")  # Tensöre dönüştür
-    with torch.no_grad():  # Inference modunda çalış
-        outputs = model.generate(**inputs, max_length=512)  # Cevabı üret
+    inputs = processor(images=image, return_tensors="pt")  # Convert to tensor
+    with torch.no_grad():  # Work in inference mode
+        outputs = model.generate(**inputs, max_length=512)  # Generate the response
 
-    result = processor.decode(outputs[0], skip_special_tokens=True)  # Metni al
+    result = processor.decode(outputs[0], skip_special_tokens=True)  # Get the text
 
     return {
-        "text": result.strip(),            # Çıkarılan içerik
-        "source_id": image_name,      # Dosya adı
-        "title": Path(image_name).stem,          # Uzantısız dosya adı
-        "type": "image_structured_data"    # İçerik türü
+        "text": result.strip(),            # Extracted content
+        "source_id": image_name,      # File name
+        "title": Path(image_name).stem,          # File name without extension
+        "type": "image_structured_data"    # Content type
     }
 
 def parse_all_images(folder_path):
     """
-    Belirtilen klasördeki tüm görselleri işler.
+    Processes all images in the specified folder.
     """
     folder = Path(folder_path)
     supported_ext = [".jpg", ".jpeg", ".png", ".bmp"]
