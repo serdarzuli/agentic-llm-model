@@ -1,7 +1,4 @@
-# tools/image_parser.py
-
 from transformers import Pix2StructProcessor, Pix2StructForConditionalGeneration  # Model bileşenleri
-from PIL import Image  # Görsel işlemleri için
 from pathlib import Path
 import torch
 
