@@ -1,6 +1,6 @@
 from langchain_community.document_loaders import PyMuPDFLoader
 from pathlib import Path
-import fitz  # PyMuPDF
+import fitz
 
 
 def load_pdf_with_metada(uploaded_file):
