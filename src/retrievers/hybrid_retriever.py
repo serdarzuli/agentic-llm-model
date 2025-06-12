@@ -8,8 +8,9 @@ import cohere
 load_dotenv()
 cohere_api_key = os.getenv("COHERE_API_KEY")
 
-embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
+# NOTE: For ingestion and embedding, use ingest.py. This module is only for retrieval and reranking.
 
+embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
 co = cohere.Client(cohere_api_key)
 
 def load_vector_db(persist_dir="./data/embeddings/"):
